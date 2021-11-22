@@ -1,0 +1,20 @@
+{
+  "name": "sandra_back-final-project-202109",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SkylabCoders/Sandra_Back-Final-Project-202109.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SkylabCoders/Sandra_Back-Final-Project-202109/issues"
+  },
+  "homepage": "https://github.com/SkylabCoders/Sandra_Back-Final-Project-202109#readme"
+}
