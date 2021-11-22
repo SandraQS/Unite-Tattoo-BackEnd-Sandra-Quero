@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { Model, Schema, model, Types } from "mongoose";
 
 interface PersonalDataTattoArtist {
   name: string;
@@ -28,11 +28,11 @@ interface TattoArtist {
   personalDataTattoArtist: PersonalDataTattoArtist;
   userDataTattoArtist: UserDataTattoArtist;
   professionalDataTattoArtist: ProfessionalDataTattoArtist;
-  collections: Array<string>;
-  appointmentSchedule: Array<string>;
+  collections: Array<object>;
+  appointmentSchedule: Array<object>;
 }
 
-const TattoArtistSchema: TattoArtist = new Schema({
+const tattoArtistSchema: Schema = new Schema({
   personalDataTattoArtist: {
     name: {
       type: String,
@@ -101,8 +101,8 @@ const TattoArtistSchema: TattoArtist = new Schema({
     },
   },
   collections: {
-    type: Array,
-    ddefault: [],
+    type: [Types.ObjectId],
+    ref: "Collection",
   },
   appointmentSchedule: {
     type: Array,
@@ -110,9 +110,9 @@ const TattoArtistSchema: TattoArtist = new Schema({
   },
 });
 
-const TattoArtistModel = model(
+const TattoArtistModel: Model<TattoArtist> = model(
   "TattoArtist",
-  TattoArtistSchema,
+  tattoArtistSchema,
   "tattoArtists"
 );
 
