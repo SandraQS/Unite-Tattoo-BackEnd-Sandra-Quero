@@ -1,7 +1,30 @@
-const { Schema, model } = require("mongoose");
+import { model, Model, Schema } from "mongoose";
 
-interface collections {
-  name: string;
-  surname1: string;
-  surname2: string;
+interface Collection {
+  tattooStyles: string;
+  image: string;
+  works: Array<string>;
 }
+
+const collectionSchema: Schema = new Schema({
+  tattooStyles: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    required: true,
+  },
+  works: {
+    type: Array,
+    default: [],
+  },
+});
+
+const collectionModel: Model<Collection> = model(
+  "Collection",
+  collectionSchema,
+  "collections"
+);
+
+export = { collectionModel };
