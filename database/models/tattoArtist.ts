@@ -116,4 +116,4 @@ const TattoArtistModel = model(
   "tattoArtists"
 );
 
-module.exports = TattoArtistModel;
+export = { TattoArtistModel };
