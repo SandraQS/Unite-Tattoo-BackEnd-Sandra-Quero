@@ -9,7 +9,7 @@
     ]
   },
   "scripts": {
-    "test": "jest --watchAll",
+    "test": "jest",
     "test-cov": "jest --watchAll --collect-coverage",
     "start": "node dist/index.js",
     "dev": "nodemon dist/index.js -q",
