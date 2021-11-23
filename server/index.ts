@@ -4,10 +4,12 @@ import Debug from "debug";
 import express from "express";
 import chalk from "chalk";
 
-import { handlerNotFound, handlerGeneralError } from "./middlewares/errors";
-import TattooArtistModel from "../database/models/tattooArtist";
-
 const debug = Debug("UniteTattoo:database");
+
+import { handlerNotFound, handlerGeneralError } from "./middlewares/errors";
+// import TattooArtistModel from "../database/models/tattooArtist";
+import tattooArtistRoutes from "./routes/tattooArtistRoutes";
+// import TattooArtistModel from "../database/models/tattooArtist";
 
 const app = express();
 
@@ -35,24 +37,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.post("/prueba", async (req, res) => {
-  const {
-    personalDataTattoArtist,
-    userDataTattoArtist,
-    professionalDataTattooArtist,
-    collections,
-    appointmentSchedule,
-  } = req.body;
-
-  const newTattooArtist = await TattooArtistModel.create({
-    personalDataTattoArtist,
-    userDataTattoArtist,
-    professionalDataTattooArtist,
-    collections,
-    appointmentSchedule,
-  });
-  res.json(newTattooArtist);
-});
+app.use("/tattooArtist", tattooArtistRoutes);
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);
