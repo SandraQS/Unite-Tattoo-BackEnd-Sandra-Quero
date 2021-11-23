@@ -1,10 +1,10 @@
 import dotenv from "dotenv";
 
+dotenv.config();
+
 import initDB from "./database";
 
 import initServer from "./server";
-
-dotenv.config();
 
 const port = process.env.PORT ?? process.env.SERVER_PORT ?? 3000;
 
