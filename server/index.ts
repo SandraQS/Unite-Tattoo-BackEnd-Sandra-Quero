@@ -7,9 +7,8 @@ import chalk from "chalk";
 const debug = Debug("UniteTattoo:database");
 
 import { handlerNotFound, handlerGeneralError } from "./middlewares/errors";
-// import TattooArtistModel from "../database/models/tattooArtist";
 import tattooArtistRoutes from "./routes/tattooArtistRoutes";
-// import TattooArtistModel from "../database/models/tattooArtist";
+import collectionsRoutes from "./routes/collectionsRoutes";
 
 const app = express();
 
@@ -38,6 +37,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/tattooArtist", tattooArtistRoutes);
+app.use("/tattooArtist", collectionsRoutes);
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);
