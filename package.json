@@ -14,7 +14,8 @@
     "start": "node dist/index.js",
     "dev": "nodemon dist/index.js -q",
     "tsc-comp": "npx tsc --watch",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
