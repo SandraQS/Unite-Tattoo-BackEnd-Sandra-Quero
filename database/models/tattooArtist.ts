@@ -1,4 +1,4 @@
-const { Schema, model } = require("mongoose");
+import { model, Model, Schema } from "mongoose";
 
 interface PersonalDataTattooArtist {
   name: string;
@@ -32,7 +32,7 @@ interface TattooArtist {
   appointmentSchedule: Array<string>;
 }
 
-const TattooArtistSchema: TattooArtist = new Schema({
+const TattooArtistSchema: Schema = new Schema({
   personalDataTattoArtist: {
     name: {
       type: String,
@@ -57,15 +57,13 @@ const TattooArtistSchema: TattooArtist = new Schema({
       type: String,
       required: true,
     },
-    confirmPassword: {
-      type: String,
-      required: true,
-    },
+
     email: {
       type: String,
       required: true,
     },
   },
+
   professionalDataTattooArtist: {
     studioName: {
       type: String,
@@ -110,7 +108,7 @@ const TattooArtistSchema: TattooArtist = new Schema({
   },
 });
 
-const TattooArtistModel = model(
+const TattooArtistModel: Model<TattooArtist> = model(
   "TattooArtist",
   TattooArtistSchema,
   "tattooArtists"
