@@ -1,4 +1,4 @@
-import { model, Model, Schema } from "mongoose";
+import { model, Model, Schema, Types } from "mongoose";
 
 interface Collection {
   tattooStyles: string;
@@ -16,7 +16,8 @@ const collectionSchema: Schema = new Schema({
     required: true,
   },
   works: {
-    type: Array,
+    type: [Types.ObjectId],
+    ref: "Work",
     default: [],
   },
 });

@@ -1,36 +1,5 @@
-import { model, Model, Schema } from "mongoose";
-
-interface PersonalDataTattooArtist {
-  name: string;
-  surname1: string;
-  surname2: string;
-}
-
-interface UserDataTattooArtist {
-  userName: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
-}
-
-interface ProfessionalDataTattooArtist {
-  studioName: string;
-  professionalName: string;
-  phone: number;
-  contactEmail: string;
-  openingHours: string;
-  direction: string;
-  tattooStyles: Array<string>;
-  colaboration: boolean;
-}
-
-interface TattooArtist {
-  personalDataTattoArtist: PersonalDataTattooArtist;
-  userDataTattoArtist: UserDataTattooArtist;
-  professionalDataTattoArtist: ProfessionalDataTattooArtist;
-  collections: Array<string>;
-  appointmentSchedule: Array<string>;
-}
+import { model, Model, Schema, Types } from "mongoose";
+import TattooArtist from "../../interfaces/models/tatooArtist";
 
 const TattooArtistSchema: Schema = new Schema({
   personalDataTattoArtist: {
@@ -99,7 +68,8 @@ const TattooArtistSchema: Schema = new Schema({
     },
   },
   collections: {
-    type: Array,
+    type: [Types.ObjectId],
+    ref: "Collection",
     default: [],
   },
   appointmentSchedule: {
