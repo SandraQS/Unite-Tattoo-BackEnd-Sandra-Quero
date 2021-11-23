@@ -1,17 +1,17 @@
-const cors = require("cors");
-const morgan = require("morgan");
-const debug = require("debug")("UniteTattoo:server");
-const express = require("express");
-const chalk = require("chalk");
-const {
-  handlerNotFound,
-  handlerGeneralError,
-} = require("./middlewares/errors");
+import cors from "cors";
+import morgan from "morgan";
+import Debug from "debug";
+import express from "express";
+import chalk from "chalk";
+
+import { handlerNotFound, handlerGeneralError } from "./middlewares/errors";
+
+const debug = Debug("UniteTattoo:database");
 
 const app = express();
 
 const initServer = (port) =>
-  new Promise<void>((resolve, reject) => {
+  new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(chalk.yellow(`Escuchando en el puerto ${port}`));
       resolve(server);
@@ -19,7 +19,7 @@ const initServer = (port) =>
 
     server.on("error", (error) => {
       debug(chalk.red("Error al iniciar el servidor"));
-      if (error.code === "EADDRINUSE") {
+      if (error.message === "EADDRINUSE") {
         debug(chalk.red(`El puerto ${port} está ocupado`));
       }
       reject();
@@ -39,4 +39,5 @@ app.use("/prueba", (req, res) => {
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);
-export = { initServer, app };
+
+export default initServer;

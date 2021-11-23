@@ -114,4 +114,4 @@ const TattooArtistModel: Model<TattooArtist> = model(
   "tattooArtists"
 );
 
-export = { TattooArtistModel };
+export default TattooArtistModel;
