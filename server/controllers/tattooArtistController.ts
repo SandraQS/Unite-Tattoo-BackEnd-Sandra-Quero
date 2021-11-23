@@ -11,26 +11,28 @@ const tattooArtistRegister = async (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  try {
-    const {
-      personalDataTattoArtist,
-      userDataTattoArtist: { password, userName, email },
-      professionalDataTattooArtist,
-      collections,
-      appointmentSchedule,
-    } = req.body;
+  const {
+    personalDataTattoArtist,
+    userDataTattoArtist,
+    professionalDataTattooArtist,
+    collections,
+    appointmentSchedule,
+  } = req.body;
 
+  const { password } = userDataTattoArtist;
+
+  try {
     const newTattooArtist = await TattooArtistModel.create({
       personalDataTattoArtist,
       userDataTattoArtist: {
-        userName,
+        ...userDataTattoArtist,
         password: await bcrypt.hash(password, 10),
-        email,
       },
       professionalDataTattooArtist,
       collections,
       appointmentSchedule,
     });
+
     res.status(201).json(newTattooArtist);
   } catch {
     const error = new CodeError("Objeto no válido");
