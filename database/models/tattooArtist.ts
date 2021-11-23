@@ -1,19 +1,19 @@
-import { Model, Schema, model, Types } from "mongoose";
+const { Schema, model } = require("mongoose");
 
-interface PersonalDataTattoArtist {
+interface PersonalDataTattooArtist {
   name: string;
   surname1: string;
   surname2: string;
 }
 
-interface UserDataTattoArtist {
+interface UserDataTattooArtist {
   userName: string;
   password: string;
   confirmPassword: string;
   email: string;
 }
 
-interface ProfessionalDataTattoArtist {
+interface ProfessionalDataTattooArtist {
   studioName: string;
   professionalName: string;
   phone: number;
@@ -24,15 +24,15 @@ interface ProfessionalDataTattoArtist {
   colaboration: boolean;
 }
 
-interface TattoArtist {
-  personalDataTattoArtist: PersonalDataTattoArtist;
-  userDataTattoArtist: UserDataTattoArtist;
-  professionalDataTattoArtist: ProfessionalDataTattoArtist;
-  collections: Array<object>;
-  appointmentSchedule: Array<object>;
+interface TattooArtist {
+  personalDataTattoArtist: PersonalDataTattooArtist;
+  userDataTattoArtist: UserDataTattooArtist;
+  professionalDataTattoArtist: ProfessionalDataTattooArtist;
+  collections: Array<string>;
+  appointmentSchedule: Array<string>;
 }
 
-const tattoArtistSchema: Schema = new Schema({
+const TattooArtistSchema: TattooArtist = new Schema({
   personalDataTattoArtist: {
     name: {
       type: String,
@@ -66,7 +66,7 @@ const tattoArtistSchema: Schema = new Schema({
       required: true,
     },
   },
-  professionalDataTattoArtist: {
+  professionalDataTattooArtist: {
     studioName: {
       type: String,
       required: false,
@@ -101,8 +101,8 @@ const tattoArtistSchema: Schema = new Schema({
     },
   },
   collections: {
-    type: [Types.ObjectId],
-    ref: "Collection",
+    type: Array,
+    ddefault: [],
   },
   appointmentSchedule: {
     type: Array,
@@ -110,10 +110,10 @@ const tattoArtistSchema: Schema = new Schema({
   },
 });
 
-const TattoArtistModel: Model<TattoArtist> = model(
-  "TattoArtist",
-  tattoArtistSchema,
-  "tattoArtists"
+const TattooArtistModel = model(
+  "TattooArtist",
+  TattooArtistSchema,
+  "tattooArtists"
 );
 
-export = { TattoArtistModel };
+export = { TattooArtistModel };

@@ -11,7 +11,7 @@ const {
 const app = express();
 
 const initServer = (port) =>
-  new Promise((resolve, reject) => {
+  new Promise<void>((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(chalk.yellow(`Escuchando en el puerto ${port}`));
       resolve(server);
@@ -33,6 +33,9 @@ const initServer = (port) =>
 app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
+app.use("/prueba", (req, res) => {
+  res.json("hola");
+});
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);
