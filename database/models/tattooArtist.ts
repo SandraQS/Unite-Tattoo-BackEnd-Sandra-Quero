@@ -100,7 +100,7 @@ const TattooArtistSchema: Schema = new Schema({
   },
   collections: {
     type: Array,
-    ddefault: [],
+    default: [],
   },
   appointmentSchedule: {
     type: Array,
