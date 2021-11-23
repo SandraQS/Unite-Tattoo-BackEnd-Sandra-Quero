@@ -27,4 +27,4 @@ const collectionModel: Model<Collection> = model(
   "collections"
 );
 
-export = { collectionModel };
+export default collectionModel;

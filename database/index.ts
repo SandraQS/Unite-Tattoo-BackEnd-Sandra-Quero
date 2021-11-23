@@ -1,6 +1,8 @@
-const chalk = require("chalk");
-const mongoose = require("mongoose");
-const debug = require("debug")("UniteTattoo:database");
+import Debug from "debug";
+import chalk from "chalk";
+import mongoose from "mongoose";
+
+const debug = Debug("UniteTattoo:database");
 
 const initDB = (connectionDBString) =>
   new Promise<void>((resolve, reject) => {
@@ -30,4 +32,4 @@ const initDB = (connectionDBString) =>
     });
   });
 
-export = { initDB };
+export default initDB;
