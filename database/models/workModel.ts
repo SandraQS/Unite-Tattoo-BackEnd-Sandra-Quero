@@ -1,4 +1,4 @@
-import { model, Model, Schema, Types } from "mongoose";
+import { model, Model, Schema /* Types */, Types } from "mongoose";
 import Work from "../../interfaces/models/works";
 
 const workSchema: Schema = new Schema({
@@ -26,7 +26,7 @@ const workSchema: Schema = new Schema({
     type: String,
     required: true,
   },
-  collection: {
+  collectionWork: {
     type: [Types.ObjectId],
     ref: "Collection",
     default: [],
