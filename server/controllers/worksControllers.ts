@@ -57,3 +57,25 @@ export const deleteWork = async (
     next(error);
   }
 };
+
+export const editWork = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const { idWork } = req.params;
+  if (!idWork) {
+    const error = new CodeError("Id no encontrada");
+    error.code = 404;
+    return next(error);
+  }
+  try {
+    await WorkModel.findByIdAndUpdate(idWork, req.body);
+    const workEdited = await WorkModel.findById(idWork);
+    res.status(202).json(workEdited);
+  } catch {
+    const error = new CodeError("No se ha podido modificar el trabajo");
+    error.code = 404;
+    next(error);
+  }
+};
