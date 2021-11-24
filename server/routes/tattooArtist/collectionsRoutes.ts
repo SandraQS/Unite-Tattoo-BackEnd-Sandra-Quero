@@ -2,7 +2,7 @@ import express from "express";
 import {
   createCollection,
   getCollections,
-} from "../controllers/collectionsController";
+} from "../../controllers/collectionsController";
 
 const router = express.Router();
 
