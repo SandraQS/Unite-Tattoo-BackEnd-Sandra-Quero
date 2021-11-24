@@ -18,7 +18,6 @@ const tattooArtistRegister = async (
     collections,
     appointmentSchedule,
   } = req.body;
-
   const { password } = userDataTattoArtist;
 
   try {
