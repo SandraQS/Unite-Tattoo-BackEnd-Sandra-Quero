@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import WorkModel from "../../database/models/workModel";
-import { createWork, getWorks } from "./worksControllers";
+import { createWork, getWorks, deleteWork } from "./worksControllers";
 
 jest.mock("../../database/models/collectionModel");
 
@@ -107,6 +107,47 @@ describe("Given getWork controller", () => {
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
       expect(next.mock.calls[0][0]).toHaveProperty("message", "No encontrado");
+    });
+  });
+});
+
+describe("Given deleteWork controller", () => {
+  describe("When it receives correct id", () => {
+    test("Then it should called the method json message and id deleted", async () => {
+      const id = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params: any = id;
+      const res = mockResponse();
+      const req = {
+        params,
+      } as Request;
+
+      WorkModel.findByIdAndDelete = jest.fn();
+
+      await deleteWork(req, res, null);
+
+      expect(res.json).toHaveBeenCalled();
+    });
+  });
+  describe("When it receives a function next and rejected error", () => {
+    test("Then it should called next function with the error object, error.message 'Id no encontrada' and error.code is 401", async () => {
+      const id = "619d5b5f4b6e7ff3fads64bf3c9543";
+      const params: any = id;
+      const res = mockResponse();
+      const error = new CodeError("Id no encontrada");
+      const next = jest.fn();
+      const req = {
+        params,
+      } as Request;
+      WorkModel.findByIdAndDelete = jest.fn().mockRejectedValue(false);
+
+      await deleteWork(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 400);
+      expect(next.mock.calls[0][0]).toHaveProperty(
+        "message",
+        "Id no encontrada"
+      );
     });
   });
 });
