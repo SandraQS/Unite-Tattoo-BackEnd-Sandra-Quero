@@ -12,6 +12,6 @@ const router = express.Router();
 router.post(`${paths.work}${paths.create}`, createWork);
 router.get(`${paths.works}`, getWorks);
 router.put(`${paths.work}${paths.edit}/:idWork`, editWork);
-router.delete(`${paths.work}${paths.delete}/:id`, deleteWork);
+router.delete(`${paths.work}${paths.delete}/:idWork`, deleteWork);
 
 export default router;
