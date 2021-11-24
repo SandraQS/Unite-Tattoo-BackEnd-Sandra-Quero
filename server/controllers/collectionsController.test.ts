@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { createCollection } from "./collectionsController";
-import collectionModel from "../../database/models/collections";
+import collectionModel from "../../database/models/collectionModel";
 
 jest.mock("../../database/models/collections");
 

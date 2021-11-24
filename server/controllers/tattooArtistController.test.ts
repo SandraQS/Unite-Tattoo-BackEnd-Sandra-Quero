@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import TattooArtistModel from "../../database/models/tattooArtist";
+import TattooArtistModel from "../../database/models/tattooArtistModel";
 import tattooArtistRegister from "./tattooArtistController";
 
 jest.mock("../../database/models/tattooArtist");
