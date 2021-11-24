@@ -3,9 +3,7 @@ import bcrypt from "bcrypt";
 import TattooArtistModel from "../../database/models/tattooArtist";
 import tattooArtistRegister from "./tattooArtistController";
 
-jest.mock("../../database/models/tattooArtist", () => ({
-  create: jest.fn(),
-}));
+jest.mock("../../database/models/tattooArtist");
 
 const mockResponse = () => {
   const res = {} as Response;
@@ -25,7 +23,7 @@ class CodeError extends Error {
 
 describe("Given tattooArtistRegister controller", () => {
   describe("When it receives a req with a new tattoo artist", () => {
-    test("Then it should called the method json with the new user", async () => {
+    test("Then it should called the method json with the new tattoo Artist", async () => {
       const requestBody = {
         personalDataTattoArtist: {
           name: "Sandra",
