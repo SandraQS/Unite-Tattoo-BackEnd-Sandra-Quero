@@ -7,6 +7,6 @@ import {
 const router = express.Router();
 
 router.post("/collection/create", createCollection);
-router.get("/collection/", getCollections);
+router.get("/collection", getCollections);
 
 export default router;
