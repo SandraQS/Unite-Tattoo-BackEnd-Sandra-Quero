@@ -69,7 +69,7 @@ export const editCollection = async (
   try {
     await collectionModel.findByIdAndUpdate(idCollection, req.body);
     const collectionEdited = await collectionModel.findById(idCollection);
-    res.json(collectionEdited);
+    res.status(202).json(collectionEdited);
   } catch {
     const error = new CodeError("No se ha podido modificar la colección");
     error.code = 404;
