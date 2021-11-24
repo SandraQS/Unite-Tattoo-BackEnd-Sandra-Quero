@@ -36,7 +36,6 @@ app.use(cors());
 app.use(express.json());
 
 app.use("/uniteTattoo", tattooArtistRoutes);
-// app.use("/uniteTattoo", "cliente");
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);

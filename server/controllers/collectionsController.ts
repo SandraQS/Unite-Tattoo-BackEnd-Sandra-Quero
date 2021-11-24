@@ -1,5 +1,5 @@
 import express from "express";
-import collectionModel from "../../database/models/collections";
+import collectionModel from "../../database/models/collectionModel";
 
 class CodeError extends Error {
   code: number | undefined;

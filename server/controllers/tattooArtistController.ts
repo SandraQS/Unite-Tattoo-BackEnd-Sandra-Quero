@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
 import express from "express";
-import TattooArtistModel from "../../database/models/tattooArtist";
+import TattooArtistModel from "../../database/models/tattooArtistModel";
 
 class CodeError extends Error {
   code: number | undefined;
