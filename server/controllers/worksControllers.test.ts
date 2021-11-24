@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import WorkModel from "../../database/models/workModel";
-import { createWork, getWork } from "./worksControllers";
+import { createWork, getWorks } from "./worksControllers";
 
 jest.mock("../../database/models/collectionModel");
 
@@ -85,7 +85,7 @@ describe("Given getWork controller", () => {
 
       WorkModel.find = jest.fn().mockResolvedValue({});
 
-      await getWork(null, res, null);
+      await getWorks(null, res, null);
 
       expect(res.json).toHaveBeenCalledWith(works);
     });
@@ -102,7 +102,7 @@ describe("Given getWork controller", () => {
       } as Request;
       WorkModel.find = jest.fn().mockRejectedValue(false);
 
-      await getWork(req, res, next);
+      await getWorks(req, res, next);
 
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);

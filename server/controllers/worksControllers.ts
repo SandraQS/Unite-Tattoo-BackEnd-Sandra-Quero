@@ -5,7 +5,7 @@ class CodeError extends Error {
   code: number | undefined;
 }
 
-export const getWork = async (
+export const getWorks = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
