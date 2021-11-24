@@ -5,7 +5,22 @@ class CodeError extends Error {
   code: number | undefined;
 }
 
-const createWork = async (
+export const getWork = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    const works = await WorkModel.find();
+    res.json({ works });
+  } catch {
+    const error = new CodeError("No encontrado");
+    error.code = 404;
+    next(error);
+  }
+};
+
+export const createWork = async (
   req: express.Request,
   res: express.Response,
   next: express.NextFunction
@@ -26,5 +41,3 @@ const createWork = async (
     next(error);
   }
 };
-
-export default createWork;
