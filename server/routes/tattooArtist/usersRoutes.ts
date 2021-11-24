@@ -1,5 +1,5 @@
 import express from "express";
-import tattooArtistRegister from "../controllers/tattooArtistController";
+import tattooArtistRegister from "../../controllers/tattooArtistController";
 
 const router = express.Router();
 
