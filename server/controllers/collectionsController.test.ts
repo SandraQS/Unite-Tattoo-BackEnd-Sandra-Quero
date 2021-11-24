@@ -45,7 +45,7 @@ describe("Given createCollection controller", () => {
   });
 
   describe("When it receives a function next and rejected error", () => {
-    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+    test("Then it should called next function with the error object, error.message 'Objeto no válido' and error.code is 401", async () => {
       const requestBody = {
         tattooStyles: "realista",
         image: "url",
@@ -91,7 +91,7 @@ describe("Given getCollections controller", () => {
   });
 
   describe("When it receives a function next and rejected error", () => {
-    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+    test("Then it should called next function with the error object, error.message 'No encontrado' and error.code is 401", async () => {
       const res = mockResponse();
       const error = new CodeError("No encontrado");
       const next = jest.fn();
@@ -128,7 +128,7 @@ describe("Given deleteCollection controller", () => {
     });
   });
   describe("When it receives a function next and rejected error", () => {
-    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+    test("Then it should called next function with the error object, error.message 'Id no encontrada' and error.code is 401", async () => {
       const id = "619d5b5f4b6e7ff3fads64bf3c9543";
       const params: any = id;
       const res = mockResponse();
@@ -212,7 +212,7 @@ describe("Given editCollection controller", () => {
   });
 
   describe("When it receives a function next and rejected error", () => {
-    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+    test("Then it should called next function with the error object, error.message 'No se ha podido modificar la colección' and error.code is 401", async () => {
       const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
       const params: any = { idCollection };
       const body: any = {
