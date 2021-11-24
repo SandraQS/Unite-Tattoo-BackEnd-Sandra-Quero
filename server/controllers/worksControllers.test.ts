@@ -130,8 +130,8 @@ describe("Given deleteWork controller", () => {
   });
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'Id no encontrada' and error.code is 401", async () => {
-      const id = "619d5b5f4b6e7ff3fads64bf3c9543";
-      const params: any = id;
+      const idWork = "619d5b5f4b6e7ff3fads64bf3c9543";
+      const params: any = idWork;
       const res = mockResponse();
       const error = new CodeError("Id no encontrada");
       const next = jest.fn();
