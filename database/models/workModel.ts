@@ -33,6 +33,6 @@ const workSchema: Schema = new Schema({
   },
 });
 
-const WorkModel: Model<Work> = model("Work", workSchema, "works");
+const workModel: Model<Work> = model("Work", workSchema, "works");
 
-export default WorkModel;
+export default workModel;
