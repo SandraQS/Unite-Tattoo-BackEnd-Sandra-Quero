@@ -1,4 +1,5 @@
 import express from "express";
+import paths from "../../paths/paths";
 import {
   createCollection,
   getCollections,
@@ -8,9 +9,9 @@ import {
 
 const router = express.Router();
 
-router.post("/collection/create", createCollection);
-router.get("/collection", getCollections);
-router.delete("/collection/delete/:id", deleteCollection);
-router.put("/collection/edit/:idCollection", editCollection);
+router.post(`${paths.collection}${paths.create}`, createCollection);
+router.get(`${paths.collections}`, getCollections);
+router.delete(`${paths.collection}${paths.delete}/:id`, deleteCollection);
+router.put(`${paths.collection}${paths.edit}/:idCollection`, editCollection);
 
 export default router;
