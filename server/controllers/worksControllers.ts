@@ -47,10 +47,10 @@ export const deleteWork = async (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const { id } = req.params;
+  const { idWork } = req.params;
   try {
-    await workModel.findByIdAndDelete(id);
-    res.json(`Se ha borrado el trabajo con la id ${id}`);
+    await workModel.findByIdAndDelete(idWork);
+    res.json(`Se ha borrado el trabajo con la id ${idWork}`);
   } catch {
     const error = new CodeError("Id no encontrada");
     error.code = 400;

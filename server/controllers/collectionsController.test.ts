@@ -179,7 +179,7 @@ describe("Given editCollection controller", () => {
   });
 
   describe("When it receives req.params with id correct and collection modified", () => {
-    test("Then it should called the method json with de collection edited", async () => {
+    test("Then it should called the method json with the collection edited", async () => {
       const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
       const params: any = { idCollection };
       const body: any = {
