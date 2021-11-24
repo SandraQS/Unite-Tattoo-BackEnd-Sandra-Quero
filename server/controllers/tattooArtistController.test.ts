@@ -3,7 +3,7 @@ import bcrypt from "bcrypt";
 import TattooArtistModel from "../../database/models/tattooArtistModel";
 import tattooArtistRegister from "./tattooArtistController";
 
-jest.mock("../../database/models/tattooArtist");
+jest.mock("../../database/models/tattooArtistModel");
 
 const mockResponse = () => {
   const res = {} as Response;

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { createCollection } from "./collectionsController";
 import collectionModel from "../../database/models/collectionModel";
 
-jest.mock("../../database/models/collections");
+jest.mock("../../database/models/collectionModel");
 
 const mockResponse = () => {
   const res = {} as Response;
