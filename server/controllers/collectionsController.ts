@@ -38,3 +38,19 @@ export const createCollection = async (
     next(error);
   }
 };
+
+export const deleteCollection = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const { id } = req.params;
+  try {
+    await collectionModel.findByIdAndDelete(id);
+    res.json(`Se ha borrado la colección con la id ${id}`);
+  } catch {
+    const error = new CodeError("Id no encontrada");
+    error.code = 400;
+    next(error);
+  }
+};
