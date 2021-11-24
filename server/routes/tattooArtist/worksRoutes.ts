@@ -1,10 +1,17 @@
 import express from "express";
 import paths from "../../paths/paths";
-import { createWork, getWorks } from "../../controllers/worksControllers";
+import {
+  createWork,
+  getWorks,
+  editWork,
+  deleteWork,
+} from "../../controllers/worksControllers";
 
 const router = express.Router();
 
-router.get(`${paths.works}`, getWorks);
 router.post(`${paths.work}${paths.create}`, createWork);
+router.get(`${paths.works}`, getWorks);
+router.put(`${paths.work}${paths.edit}/:idWork`, editWork);
+router.delete(`${paths.work}${paths.delete}/:id`, deleteWork);
 
 export default router;
