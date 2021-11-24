@@ -53,12 +53,14 @@ describe("Given tattooArtistRegister controller", () => {
       } as Request;
 
       const res = mockResponse();
+      const expectStatus = 201;
 
       TattooArtistModel.create = jest.fn().mockResolvedValue(requestBody);
 
       await tattooArtistRegister(req, res, null);
 
       expect(res.json).toHaveBeenCalledWith(requestBody);
+      expect(res.status).toHaveBeenCalledWith(expectStatus);
     });
   });
 
