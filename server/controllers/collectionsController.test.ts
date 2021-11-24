@@ -3,6 +3,7 @@ import {
   createCollection,
   getCollections,
   deleteCollection,
+  editCollection,
 } from "./collectionsController";
 import collectionModel from "../../database/models/collectionModel";
 
@@ -145,6 +146,98 @@ describe("Given deleteCollection controller", () => {
       expect(next.mock.calls[0][0]).toHaveProperty(
         "message",
         "Id no encontrada"
+      );
+    });
+  });
+});
+
+describe("Given editCollection controller", () => {
+  describe("When it receives req.params with id unexist", () => {
+    test("Then it should called next function with error, message 'Id no encontrada', and code 404", async () => {
+      const idCollection = false;
+      const params: any = { idCollection };
+
+      const req = {
+        params,
+      } as Request;
+
+      const next = jest.fn();
+
+      const error = new CodeError("Id no encontrada");
+
+      collectionModel.findById = jest.fn().mockResolvedValue(false);
+
+      await editCollection(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+      expect(next.mock.calls[0][0]).toHaveProperty(
+        "message",
+        "Id no encontrada"
+      );
+    });
+  });
+
+  describe("When it receives req.params with id correct and collection modified", () => {
+    test("Then it should called the method json with de collection edited", async () => {
+      const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params: any = { idCollection };
+      const body: any = {
+        tattooStyles: "siii",
+        image: "Hay que modificar para que sea con multer",
+        works: [],
+      };
+
+      const res = mockResponse();
+      const req = {
+        params,
+        body,
+      } as Request;
+
+      const collectionEdited = {
+        tattooStyles: "siii",
+        image: "Hay que modificar para que sea con multer",
+        works: [],
+        id: "619df77b0396d1ff45fe32c4",
+      };
+
+      collectionModel.findByIdAndUpdate = jest.fn();
+      collectionModel.findById = jest.fn().mockResolvedValue(collectionEdited);
+
+      await editCollection(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(collectionEdited);
+      expect(res.status).toHaveBeenCalledWith(202);
+    });
+  });
+
+  describe("When it receives a function next and rejected error", () => {
+    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+      const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params: any = { idCollection };
+      const body: any = {
+        tattooStyles: "siii",
+        image: "Hay que modificar para que sea con multer",
+        works: [],
+      };
+
+      const req = {
+        params,
+        body,
+      } as Request;
+      const next = jest.fn();
+      const error = new CodeError("No se ha podido modificar la colección");
+
+      collectionModel.findByIdAndUpdate = jest.fn();
+      collectionModel.findById = jest.fn().mockResolvedValue(null);
+
+      await editCollection(req, null, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+      expect(next.mock.calls[0][0]).toHaveProperty(
+        "message",
+        "No se ha podido modificar la colección"
       );
     });
   });
