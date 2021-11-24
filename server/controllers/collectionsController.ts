@@ -54,3 +54,25 @@ export const deleteCollection = async (
     next(error);
   }
 };
+
+export const editCollection = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const { idCollection } = req.params;
+  if (!idCollection) {
+    const error = new CodeError("Id no encontrada");
+    error.code = 404;
+    return next(error);
+  }
+  try {
+    await collectionModel.findByIdAndUpdate(idCollection, req.body);
+    const collectionEdited = await collectionModel.findById(idCollection);
+    res.json(collectionEdited);
+  } catch {
+    const error = new CodeError("No se ha podido modificar la colección");
+    error.code = 404;
+    next(error);
+  }
+};
