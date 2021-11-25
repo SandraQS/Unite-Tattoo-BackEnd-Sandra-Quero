@@ -6,12 +6,24 @@ import {
   editWork,
   deleteWork,
 } from "../../controllers/worksControllers";
+import upload from "../../middlewares/upload";
+import firebase from "../../middlewares/firebase";
 
 const router = express.Router();
 
-router.post(`${paths.work}${paths.create}/:idCollection`, createWork);
+router.post(
+  `${paths.work}${paths.create}/:idCollection`,
+  upload.single("image"),
+  firebase,
+  createWork
+);
 router.get(`${paths.works}`, getWorks);
-router.put(`${paths.work}${paths.edit}/:idWork`, editWork);
+router.put(
+  `${paths.work}${paths.edit}/:idWork`,
+  upload.single("image"),
+  firebase,
+  editWork
+);
 router.delete(`${paths.work}${paths.delete}/:idWork`, deleteWork);
 
 export default router;

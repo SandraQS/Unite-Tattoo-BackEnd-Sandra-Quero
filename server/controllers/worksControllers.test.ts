@@ -19,21 +19,24 @@ class CodeError extends Error {
 describe("Given createWork controller", () => {
   describe("When it receives a req with a new work", () => {
     test("Then it should called the method json with the new work", async () => {
+      const fileURL = "UrlImagen";
       const requestBody = {
         tittle: "Lobo",
         tattooArtist: "Bruno",
         description: "Loremm fasdfasdfasd",
         tattooStyles: "Acuarela",
-        image: "url imagen",
+        image: fileURL,
       };
 
       const idCollection = "619e00aea445d48b6fe09192";
 
       const params: any = { idCollection };
+
       const req = {
         body: requestBody,
         params,
-      } as Request;
+        file: fileURL,
+      };
 
       const neWork = {
         tittle: "Lobo",
@@ -66,21 +69,25 @@ describe("Given createWork controller", () => {
 
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'Objeto no válido' and error.code is 401", async () => {
+      const fileURL = "UrlImagen";
       const requestBody = {
         tittle: "Lobo",
         tattooArtist: "Bruno",
         description: "Loremm fasdfasdfasd",
         tattooStyles: "Acuarela",
-        image: "url imagen",
+        image: fileURL,
       };
 
       const idCollection = "619f4c68f41ab430cfe513c0";
-      const params: any = idCollection;
-      const req = {
-        body: requestBody,
-        params,
-      } as Request;
+      const params = idCollection;
+      const file = fileURL;
+      const body = requestBody;
 
+      const req = {
+        body,
+        params,
+        file,
+      };
       const res = mockResponse();
       const error = new CodeError("Objeto no válido");
       const next = jest.fn();
@@ -187,13 +194,15 @@ describe("Given deleteWork controller", () => {
 describe("Given editWork controller", () => {
   describe("When it receives req.params with id unexist", () => {
     test("Then it should called next function with error, message 'Id no encontrada', and code 404", async () => {
+      const fileURL = "UrlImagen";
       const idWork = false;
-      const params: any = { idWork };
+      const params = { idWork };
+      const file = fileURL;
 
       const req = {
         params,
-      } as Request;
-
+        file,
+      };
       const next = jest.fn();
 
       const error = new CodeError("Id no encontrada");
@@ -213,22 +222,25 @@ describe("Given editWork controller", () => {
 
   describe("When it receives req.params with id correct and work modified", () => {
     test("Then it should called the method json with the work edited", async () => {
+      const fileURL = "UrlImagen";
       const idWork = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = { idWork };
-      const body: any = {
+      const params = { idWork };
+      const body = {
         tittle: "Lobo",
         tattooArtist: "Bruno",
         description: "Loremm",
         tattooStyles: "Acuarela",
-        image: "url imagen",
+        image: fileURL,
         collectionWork: [],
       };
+      const file = fileURL;
 
-      const res = mockResponse();
       const req = {
         params,
         body,
-      } as Request;
+        file,
+      };
+      const res = mockResponse();
 
       const collectionEdited = {
         tittle: "Lobo",
@@ -253,21 +265,24 @@ describe("Given editWork controller", () => {
 
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'No se ha podido modificar el trabajo' and error.code is 401", async () => {
+      const fileURL = "UrlImagen";
       const idWork = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = { idWork };
-      const body: any = {
+      const params = { idWork };
+      const body = {
         tittle: "Lobo",
         tattooArtist: "Bruno",
         description: "Loremm",
         tattooStyles: "Acuarela",
-        image: "url imagen",
+        image: fileURL,
         collectionWork: [],
       };
+      const file = fileURL;
 
       const req = {
         params,
         body,
-      } as Request;
+        file,
+      };
       const next = jest.fn();
       const error = new CodeError("No se ha podido modificar el trabajo");
 
