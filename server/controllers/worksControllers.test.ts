@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import collectionModel from "../../database/models/collectionModel";
 import workModel from "../../database/models/workModel";
 import { createWork, getWorks, deleteWork, editWork } from "./worksControllers";
 
@@ -26,18 +27,39 @@ describe("Given createWork controller", () => {
         image: "url imagen",
       };
 
+      const idCollection = "619e00aea445d48b6fe09192";
+
+      const params: any = { idCollection };
       const req = {
         body: requestBody,
+        params,
       } as Request;
+
+      const neWork = {
+        tittle: "Lobo",
+        tattooArtist: "Bruno",
+        description: "Loremm fasdfasdfasd",
+        tattooStyles: "Acuarela",
+        image: "url imagen",
+        id: "619f4c68f41ab430cfe513c0",
+      };
 
       const res = mockResponse();
       const expectStatus = 201;
+      const next = jest.fn();
 
-      workModel.create = jest.fn().mockResolvedValue(requestBody);
+      collectionModel.findById = jest.fn().mockResolvedValue({
+        save: jest.fn(),
+        works: {
+          push: jest.fn(),
+        },
+      });
 
-      await createWork(req, res, null);
+      workModel.create = jest.fn().mockResolvedValue(neWork);
 
-      expect(res.json).toHaveBeenCalledWith(requestBody);
+      await createWork(req, res, next);
+
+      expect(res.json).toHaveBeenCalledWith(neWork);
       expect(res.status).toHaveBeenCalledWith(expectStatus);
     });
   });
@@ -52,8 +74,11 @@ describe("Given createWork controller", () => {
         image: "url imagen",
       };
 
+      const idCollection = "619f4c68f41ab430cfe513c0";
+      const params: any = idCollection;
       const req = {
         body: requestBody,
+        params,
       } as Request;
 
       const res = mockResponse();
