@@ -226,3 +226,47 @@ describe("Given editCollection controller", () => {
     });
   });
 });
+
+// describe("Given getCollections controller", () => {
+//   describe("When it receives res object", () => {
+//     test("Then it should called the method json with all collections", async () => {
+//       const id = "619d380da88c81eb05dd1666";
+
+//       const expectTattooArtistUser = {
+//         tattooArtistUser: { populate: jest.fn() },
+//       };
+//       const req = {
+//         idUser: id,
+//       };
+//       const res = mockResponse();
+
+//       TattooArtistModel.findById = jest.fn().mockReturnValue({
+//         populate: jest.fn().mockResolvedValue({
+//           populate: jest.fn().mockResolvedValue({}),
+//         }),
+//       });
+//       await getCollections(req, res, null);
+
+//       expect(res.json).toHaveBeenCalledWith(expectTattooArtistUser);
+//     });
+//   });
+
+//   describe("When it receives a function next and rejected error", () => {
+//     test("Then it should called next function with the error object, error.message 'No encontrado' and error.code is 401", async () => {
+//       const res = mockResponse();
+//       const error = new CodeError("No encontrado");
+//       const next = jest.fn();
+
+//       const req = {
+//         body: {},
+//       } as Request;
+//       collectionModel.find = jest.fn().mockRejectedValue(false);
+
+//       await getCollections(req, res, next);
+
+//       expect(next).toHaveBeenCalledWith(error);
+//       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+//       expect(next.mock.calls[0][0]).toHaveProperty("message", "No encontrado");
+//     });
+//   });
+// });
