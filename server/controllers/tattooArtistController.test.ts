@@ -1,9 +1,15 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 import TattooArtistModel from "../../database/models/tattooArtistModel";
-import tattooArtistRegister from "./tattooArtistController";
+import {
+  tattooArtistLogin,
+  tattooArtistRegister,
+} from "./tattooArtistController";
 
 jest.mock("../../database/models/tattooArtistModel");
+jest.mock("bcrypt");
+jest.mock("jsonwebtoken");
 
 const mockResponse = () => {
   const res = {} as Response;
@@ -11,12 +17,6 @@ const mockResponse = () => {
   res.json = jest.fn().mockReturnThis();
   return res;
 };
-
-// const mockRequest = () => {
-//   const req = {} as Request;
-//   return req;
-// };
-
 class CodeError extends Error {
   code: number | undefined;
 }
@@ -32,7 +32,7 @@ describe("Given tattooArtistRegister controller", () => {
         },
         userDataTattoArtist: {
           userName: "ShivaShana",
-          password: await bcrypt.hash("hola", 10),
+          password: "hola",
           email: "email@gmail.com",
         },
         professionalDataTattooArtist: {
@@ -104,6 +104,120 @@ describe("Given tattooArtistRegister controller", () => {
         "message",
         "Objeto no válido"
       );
+    });
+  });
+});
+
+describe("Given tattooArtistLogin controller", () => {
+  describe("When it receives an req object with an email unexist, and a next function", () => {
+    test("Then it should called the next function with error, error.message 'Algo ha fallado' and error.code 401", async () => {
+      const requestBody = {
+        password: "hola",
+        email: "email@gmail.com",
+      };
+      const error = new CodeError("Algo ha fallado");
+
+      const req = {
+        body: requestBody,
+      } as Request;
+      const res = mockResponse();
+      const next = jest.fn();
+      TattooArtistModel.findOne = jest.fn().mockResolvedValue(null);
+
+      await tattooArtistLogin(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 401);
+    });
+  });
+
+  describe("When it receives an req object with a correct email and a password incorrect", () => {
+    test("Then it should called the next function with error, error.message 'Algo ha fallado' and error.code 401", async () => {
+      const requestBody = {
+        password: "hola",
+        email: "email@gmail.com",
+      };
+
+      const error = new CodeError("Algo ha fallado");
+      const user = {
+        userDataTattoArtist: {
+          password: "hola",
+          email: "email@gmail.com",
+        },
+      };
+
+      const req = {
+        body: requestBody,
+      } as Request;
+      const res = mockResponse();
+      const next = jest.fn();
+      TattooArtistModel.findOne = jest.fn().mockResolvedValue(user);
+
+      await tattooArtistLogin(req, res, next);
+      bcrypt.compare = jest.fn().mockResolvedValue(false);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 401);
+    });
+  });
+
+  describe("When receives an req object with a correct email and a correct password", () => {
+    test("Then it should called res.json with token", async () => {
+      const requestBody = {
+        password: "hola",
+        email: "email@gmail.com",
+      };
+
+      const user = {
+        userDataTattoArtist: {
+          password: "hola",
+          email: "email@gmail.com",
+        },
+      };
+
+      const req = {
+        body: requestBody,
+      } as Request;
+      const res = mockResponse();
+
+      const token = "MockToken";
+      const expectToken = {
+        token,
+      };
+
+      TattooArtistModel.findOne = jest.fn().mockResolvedValue(user);
+      bcrypt.compare = jest.fn().mockResolvedValue(true);
+      jwt.sign = jest.fn().mockReturnValue(token);
+
+      await tattooArtistLogin(req, res, null);
+
+      expect(res.json).toHaveBeenLastCalledWith(expectToken);
+    });
+  });
+
+  describe("When it receives a function next and rejected error", () => {
+    test("Then it should called next function with the error object, error.message 'No estás autorizado' and error.code is 401", async () => {
+      const requestBody = {
+        password: "hola",
+        email: "email@gmail.com",
+      };
+
+      const req = {
+        body: requestBody,
+      } as Request;
+      const res = mockResponse();
+      const next = jest.fn();
+
+      const error = new CodeError("No autorizado");
+      TattooArtistModel.findOne = jest.fn().mockRejectedValue(null);
+
+      await tattooArtistLogin(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 401);
     });
   });
 });
