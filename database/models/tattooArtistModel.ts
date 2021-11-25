@@ -76,6 +76,16 @@ const TattooArtistSchema: Schema = new Schema({
     type: Array,
     default: [],
   },
+  imageAmbient: {
+    type: String,
+    default:
+      "https://cdn.pixabay.com/photo/2017/07/11/17/03/tattoo-artist-2494298_1280.jpg",
+  },
+  profileImage: {
+    type: String,
+    default:
+      "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_1280.png",
+  },
 });
 
 const TattooArtistModel: Model<TattooArtist> = model(

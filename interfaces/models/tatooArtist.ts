@@ -30,6 +30,8 @@ interface TattooArtist {
   professionalDataTattoArtist: ProfessionalDataTattooArtist;
   collections: ObjectId[];
   appointmentSchedule: ObjectId[];
+  imageAmbient: string;
+  profileImage: string;
 }
 
 export default TattooArtist;
