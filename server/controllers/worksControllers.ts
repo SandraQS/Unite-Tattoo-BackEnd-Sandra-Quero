@@ -37,6 +37,7 @@ export const createWork = async (
       description,
       tattooStyles,
       image,
+      collectionWork: idCollection,
     });
 
     collection.works.push(newWork.id);
@@ -50,14 +51,20 @@ export const createWork = async (
   }
 };
 
-export const deleteWork = async (
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) => {
+export const deleteWork = async (req, res, next) => {
   const { idWork } = req.params;
+
   try {
+    const thisWork = await workModel.findById(idWork);
+    const collection = await collectionModel.findById({
+      _id: thisWork.collectionWork,
+    });
+
     await workModel.findByIdAndDelete(idWork);
+
+    collection.works.pop();
+    collection.save();
+
     res.json(`Se ha borrado el trabajo con la id ${idWork}`);
   } catch {
     const error = new CodeError("Id no encontrada");
