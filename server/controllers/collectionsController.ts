@@ -1,5 +1,6 @@
 import express from "express";
 import collectionModel from "../../database/models/collectionModel";
+import TattooArtistModel from "../../database/models/tattooArtistModel";
 
 class CodeError extends Error {
   code: number | undefined;
@@ -21,16 +22,24 @@ export const getCollections = async (
 };
 
 export const createCollection = async (
-  req: express.Request,
+  req,
   res: express.Response,
   next: express.NextFunction
 ) => {
   const { tattooStyles, image } = req.body;
+  const { idUser } = req;
+
+  const tattooArtistuser = await TattooArtistModel.findById(idUser);
+
   try {
     const newCollection = await collectionModel.create({
       tattooStyles,
       image,
     });
+
+    tattooArtistuser.collections.push(newCollection.id);
+    tattooArtistuser.save();
+
     res.status(201).json(newCollection);
   } catch {
     const error = new CodeError("Objeto no válido");
