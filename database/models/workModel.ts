@@ -27,9 +27,9 @@ const workSchema: Schema = new Schema({
     required: true,
   },
   collectionWork: {
-    type: [Types.ObjectId],
+    type: Types.ObjectId,
     ref: "Collection",
-    default: [],
+    required: true,
   },
 });
 
