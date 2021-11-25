@@ -8,6 +8,6 @@ import paths from "../../paths/paths";
 const router = express.Router();
 
 router.post(`${paths.register}`, tattooArtistRegister);
-router.use(`/login`, tattooArtistLogin);
+router.post(`${paths.login}`, tattooArtistLogin);
 
 export default router;
