@@ -1,4 +1,5 @@
 import express from "express";
+import collectionModel from "../../database/models/collectionModel";
 import workModel from "../../database/models/workModel";
 
 class CodeError extends Error {
@@ -26,15 +27,22 @@ export const createWork = async (
   next: express.NextFunction
 ) => {
   const { tittle, tattooArtist, description, tattooStyles, image } = req.body;
+  const { idCollection } = req.params;
+
   try {
-    const nerWork = await workModel.create({
+    const collection = await collectionModel.findById(idCollection);
+    const newWork = await workModel.create({
       tittle,
       tattooArtist,
       description,
       tattooStyles,
       image,
     });
-    res.status(201).json(nerWork);
+
+    collection.works.push(newWork.id);
+    collection.save();
+
+    res.status(201).json(newWork);
   } catch {
     const error = new CodeError("Objeto no válido");
     error.code = 404;
