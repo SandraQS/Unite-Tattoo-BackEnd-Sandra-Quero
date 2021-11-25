@@ -139,14 +139,21 @@ describe("Given getWork controller", () => {
 describe("Given deleteWork controller", () => {
   describe("When it receives correct id", () => {
     test("Then it should called the method json message and id deleted", async () => {
-      const id = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = id;
+      const idWork = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params: any = idWork;
       const res = mockResponse();
       const req = {
         params,
       } as Request;
 
+      workModel.findById = jest.fn().mockResolvedValue(idWork);
       workModel.findByIdAndDelete = jest.fn();
+      collectionModel.findById = jest.fn().mockResolvedValue({
+        save: jest.fn(),
+        works: {
+          pop: jest.fn(),
+        },
+      });
 
       await deleteWork(req, res, null);
 

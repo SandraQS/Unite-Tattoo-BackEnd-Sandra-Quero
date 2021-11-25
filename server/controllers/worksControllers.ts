@@ -61,6 +61,7 @@ export const deleteWork = async (req, res, next) => {
     });
 
     await workModel.findByIdAndDelete(idWork);
+
     collection.works.pop();
     collection.save();
 
