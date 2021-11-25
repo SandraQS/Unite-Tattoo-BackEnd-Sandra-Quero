@@ -7,13 +7,19 @@ class CodeError extends Error {
 }
 
 export const getCollections = async (
-  req: express.Request,
+  req,
   res: express.Response,
   next: express.NextFunction
 ) => {
+  const { idUser } = req;
+
   try {
-    const collections = await collectionModel.find();
-    res.json({ collections });
+    const tattooArtistUser = await TattooArtistModel.findById(idUser).populate({
+      path: "collections",
+      populate: { path: "works" },
+    });
+
+    res.json({ tattooArtistUser });
   } catch {
     const error = new CodeError("No encontrado");
     error.code = 404;
@@ -26,7 +32,8 @@ export const createCollection = async (
   res: express.Response,
   next: express.NextFunction
 ) => {
-  const { tattooStyles, image } = req.body;
+  const { tattooStyles } = req.body;
+  const { fileURL } = req.file;
   const { idUser } = req;
 
   const tattooArtistuser = await TattooArtistModel.findById(idUser);
@@ -34,7 +41,7 @@ export const createCollection = async (
   try {
     const newCollection = await collectionModel.create({
       tattooStyles,
-      image,
+      image: fileURL,
     });
 
     tattooArtistuser.collections.push(newCollection.id);
@@ -65,18 +72,23 @@ export const deleteCollection = async (
 };
 
 export const editCollection = async (
-  req: express.Request,
+  req,
   res: express.Response,
   next: express.NextFunction
 ) => {
   const { idCollection } = req.params;
+  const collectionEdit = req.body;
+  const { fileURL } = req.file;
   if (!idCollection) {
     const error = new CodeError("Id no encontrada");
     error.code = 404;
     return next(error);
   }
   try {
-    await collectionModel.findByIdAndUpdate(idCollection, req.body);
+    await collectionModel.findByIdAndUpdate(idCollection, {
+      ...collectionEdit,
+      image: fileURL,
+    });
     const collectionEdited = await collectionModel.findById(idCollection);
     res.status(202).json(collectionEdited);
   } catch {
