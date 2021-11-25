@@ -6,6 +6,7 @@ import {
   editCollection,
 } from "./collectionsController";
 import collectionModel from "../../database/models/collectionModel";
+import TattooArtistModel from "../../database/models/tattooArtistModel";
 
 jest.mock("../../database/models/collectionModel");
 
@@ -27,14 +28,22 @@ describe("Given createCollection controller", () => {
         tattooStyles: "realista",
         image: "url",
       };
+      const id = "619d380da88c81eb05dd1666";
 
       const req = {
         body: requestBody,
-      } as Request;
+        idUser: id,
+      };
 
       const res = mockResponse();
       const expectStatus = 201;
 
+      TattooArtistModel.findById = jest.fn().mockResolvedValue({
+        save: jest.fn(),
+        collections: {
+          push: jest.fn(),
+        },
+      });
       collectionModel.create = jest.fn().mockResolvedValue(requestBody);
 
       await createCollection(req, res, null);

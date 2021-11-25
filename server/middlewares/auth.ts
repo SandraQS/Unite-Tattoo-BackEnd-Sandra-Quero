@@ -21,7 +21,7 @@ const auth = (req, res: express.Response, next: express.NextFunction) => {
   }
   try {
     const user = jwt.verify(token, process.env.SECRET_TOKEN);
-    req.idUser = user.id;
+    req.idUser = user.idUser;
     next();
   } catch {
     const error = new CodeError("Token no válido");
