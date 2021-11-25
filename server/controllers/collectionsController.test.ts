@@ -165,12 +165,13 @@ describe("Given deleteCollection controller", () => {
 describe("Given editCollection controller", () => {
   describe("When it receives req.params with id unexist", () => {
     test("Then it should called next function with error, message 'Id no encontrada', and code 404", async () => {
+      const fileURL = "UrlImagen";
       const idCollection = false;
-      const params: any = { idCollection };
 
       const req = {
-        params,
-      } as Request;
+        params: { idCollection },
+        file: fileURL,
+      };
 
       const next = jest.fn();
 
@@ -191,19 +192,23 @@ describe("Given editCollection controller", () => {
 
   describe("When it receives req.params with id correct and collection modified", () => {
     test("Then it should called the method json with the collection edited", async () => {
+      const fileURL = "UrlImagen";
+
       const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = { idCollection };
-      const body: any = {
+      const body = {
         tattooStyles: "siii",
         image: "Hay que modificar para que sea con multer",
         works: [],
       };
+      const params = { idCollection };
+      const file = fileURL;
 
       const res = mockResponse();
       const req = {
         params,
         body,
-      } as Request;
+        file,
+      };
 
       const collectionEdited = {
         tattooStyles: "siii",
@@ -224,18 +229,23 @@ describe("Given editCollection controller", () => {
 
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'No se ha podido modificar la colección' and error.code is 401", async () => {
+      const fileURL = "UrlImagen";
+
       const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = { idCollection };
-      const body: any = {
+      const body = {
         tattooStyles: "siii",
         image: "Hay que modificar para que sea con multer",
         works: [],
       };
+      const params = { idCollection };
+      const file = fileURL;
 
       const req = {
         params,
         body,
-      } as Request;
+        file,
+      };
+
       const next = jest.fn();
       const error = new CodeError("No se ha podido modificar la colección");
 
