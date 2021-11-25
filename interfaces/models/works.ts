@@ -7,7 +7,7 @@ interface Work {
   tattooStyles: string;
   likes: number;
   image: string;
-  collection: ObjectId[];
+  collectionWork: ObjectId[];
 }
 
 export default Work;
