@@ -24,15 +24,16 @@ class CodeError extends Error {
 describe("Given createCollection controller", () => {
   describe("When it receives a req with a new collection", () => {
     test("Then it should called the method json with the new collection", async () => {
+      const fileURL = "UrlImagen";
       const requestBody = {
         tattooStyles: "realista",
-        image: "url",
+        image: fileURL,
       };
       const id = "619d380da88c81eb05dd1666";
-
       const req = {
         body: requestBody,
         idUser: id,
+        file: fileURL,
       };
 
       const res = mockResponse();
@@ -55,14 +56,15 @@ describe("Given createCollection controller", () => {
 
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'Objeto no válido' and error.code is 401", async () => {
+      const fileURL = "UrlImagen";
       const requestBody = {
         tattooStyles: "realista",
-        image: "url",
+        image: fileURL,
       };
-
       const req = {
         body: requestBody,
-      } as Request;
+        file: fileURL,
+      };
 
       const res = mockResponse();
       const error = new CodeError("Objeto no válido");
