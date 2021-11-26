@@ -47,6 +47,7 @@ export const tattooArtistLogin = async (
   next: express.NextFunction
 ) => {
   const { email, password } = req.body;
+
   try {
     const user = await TattooArtistModel.findOne({ email });
 
