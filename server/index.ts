@@ -8,6 +8,8 @@ const debug = Debug("UniteTattoo:database");
 
 import { handlerNotFound, handlerGeneralError } from "./middlewares/errors";
 import tattooArtistRoutes from "./routes/tattooArtist/tattooArtistRoutes";
+import clientsRoutes from "./routes/clients/clientsRoutes";
+import paths from "./paths/paths";
 
 const app = express();
 
@@ -35,7 +37,8 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(express.json());
 
-app.use("/uniteTattoo", tattooArtistRoutes);
+app.use(`${paths.uniteTattoo}`, tattooArtistRoutes);
+app.use(`${paths.uniteTattoo}`, clientsRoutes);
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);

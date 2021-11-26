@@ -1,4 +1,6 @@
 const paths = {
+  uniteTattoo: "/uniteTattoo",
+
   edit: "/edit",
   create: "/create",
   delete: "/delete",
