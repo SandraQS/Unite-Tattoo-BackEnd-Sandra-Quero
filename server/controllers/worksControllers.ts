@@ -82,7 +82,9 @@ export const deleteWork = async (req, res, next) => {
 
     await workModel.findByIdAndDelete(idWork);
 
-    collection.works.pop();
+    collection.works = collection.works.filter(
+      (workDeleted) => idWork !== workDeleted.toString()
+    );
     collection.save();
 
     res.json(`Se ha borrado el trabajo con la id ${idWork}`);

@@ -212,7 +212,7 @@ describe("Given deleteWork controller", () => {
       collectionModel.findById = jest.fn().mockResolvedValue({
         save: jest.fn(),
         works: {
-          pop: jest.fn(),
+          filter: jest.fn(),
         },
       });
 

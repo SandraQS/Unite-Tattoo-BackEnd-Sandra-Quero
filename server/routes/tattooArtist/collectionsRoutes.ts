@@ -18,7 +18,10 @@ router.post(
   createCollection
 );
 router.get(`${paths.collections}`, getCollections);
-router.delete(`${paths.collection}${paths.delete}/:id`, deleteCollection);
+router.delete(
+  `${paths.collection}${paths.delete}/:idCollection`,
+  deleteCollection
+);
 router.put(
   `${paths.collection}${paths.edit}/:idCollection`,
   upload.single("image"),

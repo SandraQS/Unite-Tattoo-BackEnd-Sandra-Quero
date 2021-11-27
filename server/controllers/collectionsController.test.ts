@@ -87,14 +87,23 @@ describe("Given createCollection controller", () => {
 describe("Given deleteCollection controller", () => {
   describe("When it receives id", () => {
     test("Then it should called the method json message and id deleted", async () => {
-      const id = "619d5b5f4b6e7ff3fads64bf3c96";
-      const params: any = id;
+      const idUser = "619d380da88c81eb05dd1666";
+      const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params = idCollection;
       const res = mockResponse();
       const req = {
         params,
-      } as Request;
+        idUser,
+      };
 
+      TattooArtistModel.findById = jest.fn().mockResolvedValue(idUser);
       collectionModel.findByIdAndDelete = jest.fn();
+      TattooArtistModel.findById = jest.fn().mockResolvedValue({
+        save: jest.fn(),
+        collections: {
+          filter: jest.fn(),
+        },
+      });
 
       await deleteCollection(req, res, null);
 
