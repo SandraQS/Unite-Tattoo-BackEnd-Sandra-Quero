@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
 import collectionModel from "../../database/models/collectionModel";
 import workModel from "../../database/models/workModel";
-import { createWork, getWorks, deleteWork, editWork } from "./worksControllers";
+import {
+  createWork,
+  getWorksCollections,
+  getAllWorks,
+  deleteWork,
+  editWork,
+} from "./worksControllers";
 
 jest.mock("../../database/models/collectionModel");
 
@@ -106,7 +112,55 @@ describe("Given createWork controller", () => {
   });
 });
 
-describe("Given getWork controller", () => {
+describe("Given getWorksCollections controller", () => {
+  describe("When it receives res object", () => {
+    test("Then it should called the method json with all works", async () => {
+      const idCollection = "619e00aea445d48b6fe09192";
+      const params = { idCollection };
+      const collection = {
+        works: {},
+      };
+      const req = {
+        params,
+      };
+      const res = mockResponse();
+      collectionModel.findById = jest.fn().mockReturnValue({
+        populate: jest.fn().mockResolvedValue(collection),
+      });
+
+      await getWorksCollections(req, res, null);
+
+      expect(res.json).toHaveBeenCalledWith(collection.works);
+    });
+  });
+
+  describe("When it receives a function next and rejected error", () => {
+    test("Then it should called next function with the error object, error.message 'No encontrado' and error.code is 401", async () => {
+      const res = mockResponse();
+      const error = new CodeError("No encontrado");
+      const next = jest.fn();
+
+      const idCollection = "619e00aea445d48b6fe09192";
+      const params = { idCollection };
+
+      const req = {
+        params,
+        body: {},
+      };
+      collectionModel.findById = jest.fn().mockReturnValue({
+        populate: jest.fn().mockResolvedValue(null),
+      });
+
+      await getWorksCollections(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", "No encontrado");
+    });
+  });
+});
+
+describe("Given getAllWorks controller", () => {
   describe("When it receives res object", () => {
     test("Then it should called the method json with all works", async () => {
       const works = {
@@ -117,7 +171,7 @@ describe("Given getWork controller", () => {
 
       workModel.find = jest.fn().mockResolvedValue({});
 
-      await getWorks(null, res, null);
+      await getAllWorks(null, res, null);
 
       expect(res.json).toHaveBeenCalledWith(works);
     });
@@ -134,7 +188,7 @@ describe("Given getWork controller", () => {
       } as Request;
       workModel.find = jest.fn().mockRejectedValue(false);
 
-      await getWorks(req, res, next);
+      await getAllWorks(req, res, next);
 
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);

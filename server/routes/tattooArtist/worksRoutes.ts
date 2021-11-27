@@ -2,7 +2,7 @@ import express from "express";
 import paths from "../../paths/paths";
 import {
   createWork,
-  getWorks,
+  getWorksCollections,
   editWork,
   deleteWork,
 } from "../../controllers/worksControllers";
@@ -17,7 +17,7 @@ router.post(
   firebase,
   createWork
 );
-router.get(`${paths.works}`, getWorks);
+router.get(`${paths.works}/:idCollection`, getWorksCollections);
 router.put(
   `${paths.work}${paths.edit}/:idWork`,
   upload.single("image"),
