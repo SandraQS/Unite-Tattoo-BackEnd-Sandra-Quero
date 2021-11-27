@@ -6,14 +6,18 @@ class CodeError extends Error {
   code: number | undefined;
 }
 
-export const getWorks = async (
-  req: express.Request,
+export const getWorksCollections = async (
+  req,
   res: express.Response,
   next: express.NextFunction
 ) => {
+  const { idCollection } = req.params;
+
+  const collection = await collectionModel.findById(idCollection).populate({
+    path: "works",
+  });
   try {
-    const works = await workModel.find();
-    res.json({ works });
+    res.json(collection.works);
   } catch {
     const error = new CodeError("No encontrado");
     error.code = 404;
