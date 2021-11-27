@@ -50,27 +50,6 @@ beforeEach(async () => {
       colaboration: "true",
     },
   });
-  await TattooArtistModel.create({
-    personalDataTattoArtist: {
-      name: "Sandra",
-      surname1: "Quero",
-      surname2: "Sánchez",
-    },
-    userDataTattoArtist: {
-      userName: "ShivaShana",
-      password: await bcrypt.hash("hola", 10),
-      email: "email@gmail.com",
-    },
-    professionalDataTattooArtist: {
-      studioName: "Shiva",
-      professionalName: "ShivaShana",
-      phone: 666666666,
-      contactEmail: "email@gmail.com",
-      openingHours: "de 9.00 a 18.00h",
-      direction: "C/hola, nº13",
-      colaboration: "true",
-    },
-  });
 });
 
 describe("Given /userRoutes route", () => {

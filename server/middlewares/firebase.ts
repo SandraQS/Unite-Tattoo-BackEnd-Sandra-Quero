@@ -10,13 +10,17 @@ admin.initializeApp({
 });
 
 const firebase = async (req, res, next) => {
-  const bucket = admin.storage().bucket();
-  await bucket.upload(req.file.path);
-  await bucket.file(req.file.filename).makePublic();
-  const fileURL = bucket.file(req.file.filename).publicUrl();
-  debug(chalk.green(fileURL));
-  req.file.fileURL = fileURL;
-  next();
+  try {
+    const bucket = admin.storage().bucket();
+    await bucket.upload(req.file.path);
+    await bucket.file(req.file.filename).makePublic();
+    const fileURL = bucket.file(req.file.filename).publicUrl();
+    debug(chalk.green(fileURL));
+    req.file.fileURL = fileURL;
+    next();
+  } catch (error) {
+    next();
+  }
 };
 
 export default firebase;

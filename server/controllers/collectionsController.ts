@@ -33,7 +33,13 @@ export const createCollection = async (
   next: express.NextFunction
 ) => {
   const { tattooStyles } = req.body;
-  const { fileURL } = req.file;
+  const { file } = req;
+  let image;
+
+  if (file) {
+    image = file.fileURL;
+  }
+
   const { idUser } = req;
 
   const tattooArtistuser = await TattooArtistModel.findById(idUser);
@@ -41,7 +47,7 @@ export const createCollection = async (
   try {
     const newCollection = await collectionModel.create({
       tattooStyles,
-      image: fileURL,
+      image,
     });
 
     tattooArtistuser.collections.push(newCollection.id);
