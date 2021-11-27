@@ -4,7 +4,7 @@ dotenv.config();
 
 import initDB from "./database";
 
-import initServer from "./server";
+import { initServer } from "./server";
 
 const port = process.env.PORT ?? process.env.SERVER_PORT ?? 3000;
 
