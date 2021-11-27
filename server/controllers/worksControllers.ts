@@ -21,6 +21,21 @@ export const getWorks = async (
   }
 };
 
+export const getAllWorks = async (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  try {
+    const works = await workModel.find();
+    res.json({ works });
+  } catch {
+    const error = new CodeError("No encontrado");
+    error.code = 404;
+    next(error);
+  }
+};
+
 export const createWork = async (
   req,
   res: express.Response,

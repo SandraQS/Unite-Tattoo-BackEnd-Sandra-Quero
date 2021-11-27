@@ -11,9 +11,9 @@ import tattooArtistRoutes from "./routes/tattooArtist/tattooArtistRoutes";
 import clientsRoutes from "./routes/clients/clientsRoutes";
 import paths from "./paths/paths";
 
-const app = express();
+export const app = express();
 
-const initServer = (port) =>
+export const initServer = (port) =>
   new Promise((resolve, reject) => {
     const server = app.listen(port, () => {
       debug(chalk.yellow(`Escuchando en el puerto ${port}`));
@@ -42,5 +42,3 @@ app.use(`${paths.uniteTattoo}`, clientsRoutes);
 
 app.use(handlerNotFound);
 app.use(handlerGeneralError);
-
-export default initServer;
