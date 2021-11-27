@@ -11,19 +11,19 @@ import firebase from "../../middlewares/firebase";
 
 const router = express.Router();
 
+router.get(`${paths.works}/:idCollection`, getWorksCollections);
+router.delete(`${paths.work}${paths.delete}/:idWork`, deleteWork);
 router.post(
   `${paths.work}${paths.create}/:idCollection`,
   upload.single("image"),
   firebase,
   createWork
 );
-router.get(`${paths.works}/:idCollection`, getWorksCollections);
 router.put(
   `${paths.work}${paths.edit}/:idWork`,
   upload.single("image"),
   firebase,
   editWork
 );
-router.delete(`${paths.work}${paths.delete}/:idWork`, deleteWork);
 
 export default router;

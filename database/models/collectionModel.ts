@@ -13,7 +13,8 @@ const collectionSchema: Schema = new Schema({
   },
   image: {
     type: String,
-    required: true,
+    default:
+      "https://logiabarcelona.com/wp-content/uploads/2019/05/tatuaje_espalda_color_flor_cara_mujer_logia_barcelona_lincoln_lima.jpg",
   },
   works: {
     type: [Types.ObjectId],
