@@ -247,7 +247,7 @@ describe("Given deleteWork controller", () => {
 
 describe("Given editWork controller", () => {
   describe("When it receives req.params with id unexist", () => {
-    test("Then it should called next function with error, message 'Id no encontrada', and code 404", async () => {
+    test("Then it should called next function with error, message 'Trabajo no encontrado', and code 404", async () => {
       const fileURL = "UrlImagen";
       const idWork = false;
       const params = { idWork };
@@ -259,7 +259,7 @@ describe("Given editWork controller", () => {
       };
       const next = jest.fn();
 
-      const error = new CodeError("Id no encontrada");
+      const error = new CodeError("Trabajo no encontrado");
 
       workModel.findById = jest.fn().mockResolvedValue(false);
 
@@ -267,10 +267,7 @@ describe("Given editWork controller", () => {
 
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
-      expect(next.mock.calls[0][0]).toHaveProperty(
-        "message",
-        "Id no encontrada"
-      );
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
     });
   });
 
@@ -341,7 +338,7 @@ describe("Given editWork controller", () => {
       const error = new CodeError("No se ha podido modificar el trabajo");
 
       workModel.findByIdAndUpdate = jest.fn();
-      workModel.findById = jest.fn().mockResolvedValue(null);
+      workModel.findById = jest.fn().mockRejectedValue(null);
 
       await editWork(req, null, next);
 
