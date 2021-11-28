@@ -56,6 +56,11 @@ export const createWork = async (
 
   try {
     const collection = await collectionModel.findById(idCollection);
+    if (!collection) {
+      const error = new CodeError("Colección no encontrada");
+      error.code = 404;
+      return next(error);
+    }
     const newWork = await workModel.create({
       tittle,
       tattooArtist,
