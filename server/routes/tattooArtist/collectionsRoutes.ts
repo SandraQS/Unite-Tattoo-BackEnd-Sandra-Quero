@@ -21,9 +21,10 @@ router.post(
   auth,
   createCollection
 );
-router.get(`${paths.collections}`, getCollections);
+router.get(`${paths.collections}`, auth, getCollections);
 router.delete(
   `${paths.collection}${paths.delete}/:idCollection`,
+  auth,
   deleteCollection
 );
 router.put(
