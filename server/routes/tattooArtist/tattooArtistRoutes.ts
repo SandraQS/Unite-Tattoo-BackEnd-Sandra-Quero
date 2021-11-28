@@ -8,7 +8,7 @@ import auth from "../../middlewares/auth";
 const router = express.Router();
 
 router.use(`${paths.tattooArtist}`, usersRoutes);
-router.use(`${paths.tattooArtist}`, collectionsRoutes);
+router.use(`${paths.tattooArtist}`, auth, collectionsRoutes);
 router.use(`${paths.tattooArtist}`, auth, worksRoutes);
 
 export default router;
