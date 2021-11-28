@@ -1,5 +1,4 @@
 import express from "express";
-import { auth } from "firebase-admin";
 import paths from "../../paths/paths";
 import {
   createCollection,
@@ -16,7 +15,6 @@ router.post(
   `${paths.collection}${paths.create}`,
   upload.single("image"),
   firebase,
-  auth,
   createCollection
 );
 router.get(`${paths.collections}`, getCollections);
@@ -26,7 +24,6 @@ router.delete(
 );
 router.put(
   `${paths.collection}${paths.edit}/:idCollection`,
-  auth,
   upload.single("image"),
   firebase,
   editCollection
