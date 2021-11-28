@@ -47,7 +47,12 @@ export const createWork = async (
 ) => {
   const { tittle, tattooArtist, description, tattooStyles } = req.body;
   const { idCollection } = req.params;
-  const { fileURL } = req.file;
+  const { file } = req;
+  let image;
+
+  if (file) {
+    image = file.fileURL;
+  }
 
   try {
     const collection = await collectionModel.findById(idCollection);
@@ -56,7 +61,7 @@ export const createWork = async (
       tattooArtist,
       description,
       tattooStyles,
-      image: fileURL,
+      image,
       collectionWork: idCollection,
     });
 
@@ -101,8 +106,13 @@ export const editWork = async (
   next: express.NextFunction
 ) => {
   const { idWork } = req.params;
-  const { fileURL } = req.file;
   const workEdit = req.body;
+  const { file } = req;
+  let image;
+
+  if (file) {
+    image = file.fileURL;
+  }
 
   if (!idWork) {
     const error = new CodeError("Id no encontrada");
@@ -112,8 +122,9 @@ export const editWork = async (
   try {
     await workModel.findByIdAndUpdate(idWork, {
       ...workEdit,
-      image: fileURL,
+      image,
     });
+
     const workEdited = await workModel.findById(idWork);
     res.status(202).json(workEdited);
   } catch {

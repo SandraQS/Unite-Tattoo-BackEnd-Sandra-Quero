@@ -68,6 +68,7 @@ export const deleteCollection = async (
 ) => {
   const { idCollection } = req.params;
   const { idUser } = req;
+
   try {
     const thisCollection = await collectionModel.findById(idCollection);
     if (!thisCollection) {
@@ -98,7 +99,13 @@ export const editCollection = async (
 ) => {
   const { idCollection } = req.params;
   const collectionEdit = req.body;
-  const { fileURL } = req.file;
+  const { file } = req;
+  let image;
+
+  if (file) {
+    image = file.fileURL;
+  }
+
   if (!idCollection) {
     const error = new CodeError("Id no encontrada");
     error.code = 404;
@@ -107,7 +114,7 @@ export const editCollection = async (
   try {
     await collectionModel.findByIdAndUpdate(idCollection, {
       ...collectionEdit,
-      image: fileURL,
+      image,
     });
     const collectionEdited = await collectionModel.findById(idCollection);
     res.status(202).json(collectionEdited);
