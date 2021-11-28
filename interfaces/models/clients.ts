@@ -13,14 +13,14 @@ interface UserDataClient {
 
 interface InterestDataClient {
   tattooStyles: Array<string>;
-  suggestions: Boolean;
+  suggestions: boolean;
 }
 
 interface Client {
   personalDataClient: PersonalDataClient;
   userDataClient: UserDataClient;
   interestDataClient: InterestDataClient;
-  profileImage: String;
+  profileImage: string;
   favoriteTattoos: Array<string>;
   favoriteTattooArtists: Array<string>;
 }
