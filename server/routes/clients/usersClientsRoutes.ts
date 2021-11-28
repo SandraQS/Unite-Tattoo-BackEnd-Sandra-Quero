@@ -12,6 +12,5 @@ router.post(
   firebase,
   clientRegister
 );
-// router.post(`${paths.login}`, );
 
 export default router;
