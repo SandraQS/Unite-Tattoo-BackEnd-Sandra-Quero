@@ -85,7 +85,35 @@ describe("Given createCollection controller", () => {
 });
 
 describe("Given deleteCollection controller", () => {
-  describe("When it receives id", () => {
+  describe("When it receives a invalid idCollection and idUser", () => {
+    test("Then it should called next function with the error, error.message 'Colección no encontrada' and error.code is 404", async () => {
+      const idUser = "619d380da88c81eb05dd1666";
+      const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
+      const params = idCollection;
+      const res = mockResponse();
+      const req = {
+        params,
+        idUser,
+      };
+
+      TattooArtistModel.findById = jest.fn().mockResolvedValue(idUser);
+      collectionModel.findById = jest.fn().mockResolvedValue(null);
+
+      const error = new CodeError("Colección no encontrada");
+      error.code = 404;
+      const next = jest.fn();
+
+      collectionModel.findByIdAndDelete = jest.fn().mockRejectedValue(false);
+
+      await deleteCollection(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", error.code);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+    });
+  });
+
+  describe("When it receives a valid idCollection and idUser", () => {
     test("Then it should called the method json message and id deleted", async () => {
       const idUser = "619d380da88c81eb05dd1666";
       const idCollection = "619d5b5f4b6e7ff3fads64bf3c96";
@@ -97,6 +125,8 @@ describe("Given deleteCollection controller", () => {
       };
 
       TattooArtistModel.findById = jest.fn().mockResolvedValue(idUser);
+      collectionModel.findById = jest.fn().mockResolvedValue(idCollection);
+
       collectionModel.findByIdAndDelete = jest.fn();
       TattooArtistModel.findById = jest.fn().mockResolvedValue({
         save: jest.fn(),
@@ -110,6 +140,7 @@ describe("Given deleteCollection controller", () => {
       expect(res.json).toHaveBeenCalled();
     });
   });
+
   describe("When it receives a function next and rejected error", () => {
     test("Then it should called next function with the error object, error.message 'Id no encontrada' and error.code is 401", async () => {
       const id = "619d5b5f4b6e7ff3fads64bf3c9543";
