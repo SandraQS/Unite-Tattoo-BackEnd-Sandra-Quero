@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcrypt";
-import clientnModel from "../../../database/models/clientModel";
+import clientModel from "../../../database/models/clientModel";
 
 class CodeError extends Error {
   code: number | undefined;
@@ -16,7 +16,7 @@ export const clientRegister = async (
   const { fileURL } = req.file;
 
   try {
-    const newClient = await clientnModel.create({
+    const newClient = await clientModel.create({
       personalDataClient,
       userDataClient: {
         ...userDataClient,

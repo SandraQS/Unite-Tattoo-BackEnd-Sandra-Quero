@@ -1,5 +1,5 @@
 import { Response } from "express";
-import clientnModel from "../../../database/models/clientModel";
+import clientModel from "../../../database/models/clientModel";
 import { clientRegister } from "./clientsController";
 
 jest.mock("../../../database/models/clientModel");
@@ -47,7 +47,7 @@ describe("Given clientRegister controller", () => {
       const res = mockResponse();
       const expectStatus = 201;
 
-      clientnModel.create = jest.fn().mockResolvedValue(requestBody);
+      clientModel.create = jest.fn().mockResolvedValue(requestBody);
 
       await clientRegister(req, res, null);
 
@@ -88,7 +88,7 @@ describe("Given clientRegister controller", () => {
       const error = new CodeError("Objeto no válido");
       const next = jest.fn();
 
-      clientnModel.create = jest.fn().mockRejectedValue(null);
+      clientModel.create = jest.fn().mockRejectedValue(null);
 
       await clientRegister(req, res, next);
 

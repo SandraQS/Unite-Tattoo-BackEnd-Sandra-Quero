@@ -63,6 +63,6 @@ const clientSchema: Schema = new Schema({
   },
 });
 
-const clientnModel: Model<Client> = model("Client", clientSchema, "clients");
+const clientModel: Model<Client> = model("Client", clientSchema, "clients");
 
-export default clientnModel;
+export default clientModel;
