@@ -15,7 +15,7 @@ const auth = (req, res: express.Response, next: express.NextFunction) => {
   }
   const token = authHeader.split(" ")[1];
   if (!token) {
-    const error = new CodeError("Token inexistente");
+    const error = new CodeError("No estás autorizado");
     error.code = 401;
     return next(error);
   }
