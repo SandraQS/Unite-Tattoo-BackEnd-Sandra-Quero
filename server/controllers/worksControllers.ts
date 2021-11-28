@@ -119,18 +119,20 @@ export const editWork = async (
     image = file.fileURL;
   }
 
-  if (!idWork) {
-    const error = new CodeError("Id no encontrada");
-    error.code = 404;
-    return next(error);
-  }
   try {
+    const workEdited = await workModel.findById(idWork);
+
+    if (!workEdited) {
+      const error = new CodeError("Trabajo no encontrado");
+      error.code = 404;
+      return next(error);
+    }
+
     await workModel.findByIdAndUpdate(idWork, {
       ...workEdit,
       image,
     });
 
-    const workEdited = await workModel.findById(idWork);
     res.status(202).json(workEdited);
   } catch {
     const error = new CodeError("No se ha podido modificar el trabajo");
