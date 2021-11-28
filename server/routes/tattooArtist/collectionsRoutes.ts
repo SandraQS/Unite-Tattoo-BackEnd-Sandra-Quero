@@ -1,5 +1,8 @@
 import express from "express";
 import paths from "../../paths/paths";
+
+import auth from "../../middlewares/auth";
+
 import {
   createCollection,
   getCollections,
@@ -15,6 +18,7 @@ router.post(
   `${paths.collection}${paths.create}`,
   upload.single("image"),
   firebase,
+  auth,
   createCollection
 );
 router.get(`${paths.collections}`, getCollections);
@@ -26,6 +30,7 @@ router.put(
   `${paths.collection}${paths.edit}/:idCollection`,
   upload.single("image"),
   firebase,
+  auth,
   editCollection
 );
 
