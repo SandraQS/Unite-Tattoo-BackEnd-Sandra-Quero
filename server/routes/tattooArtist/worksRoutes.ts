@@ -25,9 +25,9 @@ router.post(
 );
 router.put(
   `${paths.work}${paths.edit}/:idWork`,
-  auth,
   upload.single("image"),
   firebase,
+  auth,
   editWork
 );
 
