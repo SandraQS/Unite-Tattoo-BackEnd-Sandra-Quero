@@ -70,7 +70,11 @@ export const deleteCollection = async (
   const { idUser } = req;
   try {
     const tattooArtist = await TattooArtistModel.findById(idUser);
-
+    if (!idCollection) {
+      const error = new CodeError("Id no encontrada");
+      error.code = 400;
+      return next(error);
+    }
     await collectionModel.findByIdAndDelete(idCollection);
     tattooArtist.collections = tattooArtist.collections.filter(
       (collectionDeleted) => idCollection !== collectionDeleted.toString()
