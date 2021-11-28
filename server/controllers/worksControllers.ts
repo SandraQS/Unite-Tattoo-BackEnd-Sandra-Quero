@@ -120,9 +120,9 @@ export const editWork = async (
   }
 
   try {
-    const workEdited = await workModel.findById(idWork);
+    const thisWork = await workModel.findById(idWork);
 
-    if (!workEdited) {
+    if (!thisWork) {
       const error = new CodeError("Trabajo no encontrado");
       error.code = 404;
       return next(error);
@@ -132,6 +132,8 @@ export const editWork = async (
       ...workEdit,
       image,
     });
+
+    const workEdited = await workModel.findById(idWork);
 
     res.status(202).json(workEdited);
   } catch {
