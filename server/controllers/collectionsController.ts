@@ -41,10 +41,15 @@ export const createCollection = async (
   }
 
   const { idUser } = req;
-
   const tattooArtistuser = await TattooArtistModel.findById(idUser);
 
   try {
+    if (!tattooArtistuser) {
+      const error = new CodeError("Usuario no encontrado");
+      error.code = 404;
+      return next(error);
+    }
+
     const newCollection = await collectionModel.create({
       tattooStyles,
       image,
