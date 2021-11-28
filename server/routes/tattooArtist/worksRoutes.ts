@@ -14,8 +14,8 @@ import firebase from "../../middlewares/firebase";
 
 const router = express.Router();
 
-router.get(`${paths.works}/:idCollection`, getWorksCollections);
-router.delete(`${paths.work}${paths.delete}/:idWork`, deleteWork);
+router.get(`${paths.works}/:idCollection`, auth, getWorksCollections);
+router.delete(`${paths.work}${paths.delete}/:idWork`, auth, deleteWork);
 router.post(
   `${paths.work}${paths.create}/:idCollection`,
   upload.single("image"),
@@ -25,9 +25,9 @@ router.post(
 );
 router.put(
   `${paths.work}${paths.edit}/:idWork`,
-  auth,
   upload.single("image"),
   firebase,
+  auth,
   editWork
 );
 
