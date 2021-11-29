@@ -113,17 +113,22 @@ export const editCollection = async (
     image = file.fileURL;
   }
 
-  if (!idCollection) {
-    const error = new CodeError("Id no encontrada");
-    error.code = 404;
-    return next(error);
-  }
   try {
+    const thisCollection = await collectionModel.findById(idCollection);
+
+    if (!thisCollection) {
+      const error = new CodeError("Colección no encontrada");
+      error.code = 404;
+      return next(error);
+    }
+
     await collectionModel.findByIdAndUpdate(idCollection, {
       ...collectionEdit,
       image,
     });
+
     const collectionEdited = await collectionModel.findById(idCollection);
+
     res.status(202).json(collectionEdited);
   } catch {
     const error = new CodeError("No se ha podido modificar la colección");
