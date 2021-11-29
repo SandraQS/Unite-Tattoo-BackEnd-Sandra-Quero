@@ -23,6 +23,41 @@ class CodeError extends Error {
 }
 
 describe("Given createWork controller", () => {
+  describe("When it receives a req with unexist idCollection", () => {
+    test("Then it should called the next function with error, error.message 'Colección no encontrada' and error.code is 404", async () => {
+      const fileURL = "UrlImagen";
+      const requestBody = {
+        tittle: "Lobo",
+        tattooArtist: "Bruno",
+        description: "Loremm fasdfasdfasd",
+        tattooStyles: "Acuarela",
+        image: fileURL,
+      };
+
+      const idCollection = "619e00aea445d48b6fe09192";
+      const params = { idCollection };
+      const file = fileURL;
+      const error = new CodeError("Colección no encontrada");
+      const errorCode = 404;
+
+      const req = {
+        body: requestBody,
+        params,
+        file,
+      };
+      const res = mockResponse();
+      const next = jest.fn();
+
+      collectionModel.findById = jest.fn().mockResolvedValue(null);
+
+      await createWork(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", errorCode);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+    });
+  });
+
   describe("When it receives a req with a new work", () => {
     test("Then it should called the method json with the new work", async () => {
       const fileURL = "UrlImagen";
