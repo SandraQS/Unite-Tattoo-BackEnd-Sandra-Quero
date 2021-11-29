@@ -195,29 +195,29 @@ describe("Given deleteCollection controller", () => {
 
 describe("Given editCollection controller", () => {
   describe("When it receives req.params with id unexist", () => {
-    test("Then it should called next function with error, message 'Id no encontrada', and code 404", async () => {
+    test("Then it should called next function with error, message 'Colección no encontrada', and code 404", async () => {
       const fileURL = "UrlImagen";
       const idCollection = false;
+      const params = idCollection;
+      const file = fileURL;
 
       const req = {
-        params: { idCollection },
-        file: fileURL,
+        params,
+        file,
       };
 
       const next = jest.fn();
 
-      const error = new CodeError("Id no encontrada");
+      const error = new CodeError("Colección no encontrada");
+      const codeError = 404;
 
       collectionModel.findById = jest.fn().mockResolvedValue(false);
 
       await editCollection(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
-      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
-      expect(next.mock.calls[0][0]).toHaveProperty(
-        "message",
-        "Id no encontrada"
-      );
+      expect(next.mock.calls[0][0]).toHaveProperty("code", codeError);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
     });
   });
 
@@ -279,18 +279,16 @@ describe("Given editCollection controller", () => {
 
       const next = jest.fn();
       const error = new CodeError("No se ha podido modificar la colección");
+      const codeError = 404;
 
       collectionModel.findByIdAndUpdate = jest.fn();
-      collectionModel.findById = jest.fn().mockResolvedValue(null);
+      collectionModel.findById = jest.fn().mockRejectedValue(null);
 
       await editCollection(req, null, next);
 
       expect(next).toHaveBeenCalledWith(error);
-      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
-      expect(next.mock.calls[0][0]).toHaveProperty(
-        "message",
-        "No se ha podido modificar la colección"
-      );
+      expect(next.mock.calls[0][0]).toHaveProperty("code", codeError);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
     });
   });
 });
