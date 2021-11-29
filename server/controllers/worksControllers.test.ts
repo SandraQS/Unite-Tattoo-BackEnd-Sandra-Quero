@@ -281,7 +281,7 @@ describe("Given deleteWork controller", () => {
 });
 
 describe("Given editWork controller", () => {
-  describe("When it receives req.params with id unexist", () => {
+  describe("When it receives req.params with idWork unexist", () => {
     test("Then it should called next function with error, message 'Trabajo no encontrado', and code 404", async () => {
       const fileURL = "UrlImagen";
       const idWork = false;
