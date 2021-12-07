@@ -49,8 +49,9 @@ export const tattooArtistLogin = async (
   const { email, password } = req.body;
 
   try {
-    const user = await TattooArtistModel.findOne({ email });
-
+    const user = await TattooArtistModel.findOne({
+      "userDataTattoArtist.email": email,
+    });
     if (!user) {
       const error = new CodeError("Algo ha fallado");
       error.code = 401;
