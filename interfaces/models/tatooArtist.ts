@@ -7,10 +7,9 @@ interface PersonalDataTattooArtist {
 }
 
 interface UserDataTattooArtist {
-  userName: string;
-  password: string;
-  confirmPassword: string;
-  email: string;
+  userName?: string;
+  password?: string;
+  email?: string;
 }
 
 interface ProfessionalDataTattooArtist {

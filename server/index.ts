@@ -12,6 +12,7 @@ import clientsRoutes from "./routes/clients/clientsRoutes";
 import paths from "./paths/paths";
 
 export const app = express();
+app.disable("x-powered-by");
 
 export const initServer = (port) =>
   new Promise((resolve, reject) => {
