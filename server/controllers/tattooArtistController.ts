@@ -80,3 +80,25 @@ export const tattooArtistLogin = async (
     next(error);
   }
 };
+
+export const tatooArtistPorfile = async (
+  req,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const { idUser } = req;
+  try {
+    const userPorfile = await TattooArtistModel.findById(idUser);
+    if (userPorfile) {
+      res.json(userPorfile);
+    } else {
+      const error = new CodeError("El usuario no existe");
+      error.code = 404;
+      next(error);
+    }
+  } catch {
+    const error = new CodeError("No encontrado");
+    error.code = 401;
+    next(error);
+  }
+};

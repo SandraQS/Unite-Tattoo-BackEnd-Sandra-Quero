@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import TattooArtistModel from "../../database/models/tattooArtistModel";
 import {
+  tatooArtistPorfile,
   tattooArtistLogin,
   tattooArtistRegister,
 } from "./tattooArtistController";
@@ -214,6 +215,104 @@ describe("Given tattooArtistLogin controller", () => {
       TattooArtistModel.findOne = jest.fn().mockRejectedValue(null);
 
       await tattooArtistLogin(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 401);
+    });
+  });
+});
+
+describe("Given tatooArtistPorfile controller", () => {
+  describe("When it receives an req object with a id unexist", () => {
+    test("Then it should called the next function with error, error.message 'El usuario no existe' and error.code 404", async () => {
+      const idUser = "61b1230c136733d8752847d8";
+      const req = {
+        idUser,
+      };
+
+      const error = new CodeError("El usuario no existe");
+      const res = mockResponse();
+      const next = jest.fn();
+
+      TattooArtistModel.findById = jest.fn().mockResolvedValue(null);
+
+      await tatooArtistPorfile(req, res, next);
+
+      expect(next).toHaveBeenCalledWith(error);
+      expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
+      expect(next.mock.calls[0][0]).toHaveProperty("code", 404);
+    });
+  });
+
+  describe("When it receives an req object with a valid id", () => {
+    test("Then it should called the method json with the porfile user", async () => {
+      const idUser = "61b1230c136733d8752847d8";
+      const expectUserPorfile = {
+        personalDataTattoArtist: {
+          name: "Ezequiel",
+          surname1: "Sánchez",
+          surname2: "Molina",
+        },
+        userDataTattoArtist: {
+          userName: "𝗘𝗭𝗘𝗤𝗨𝗜𝗘𝗟",
+          password:
+            "$2b$10$ww7anSbsOWHqDr3EOx6UqOUNLCRtiyzbWtjBcZIrPqxfaiKXk7Mwi",
+          email: "ezequiel@gmail.com",
+        },
+        professionalDataTattooArtist: {
+          studioName: "Circa Tattoo Bcn",
+          professionalName: "Ezequiel Samuraii",
+          phone: 63526378,
+          contactEmail: "ezequiel@gmail.com",
+          openingHours: "8.00h a 18.00h",
+          direction: "C/Diputació, 20",
+          tattooStyles: ["Realista, color"],
+          colaboration: "false",
+        },
+        collections: [
+          "61b12387136733d8752847ef",
+          "61b12520136733d875284813",
+          "61b12684136733d875284820",
+        ],
+        appointmentSchedule: [],
+        imageAmbient:
+          "https://cdn.pixabay.com/photo/2017/07/11/17/03/tattoo-artist-2494298_1280.jpg",
+        profileImage:
+          "https://cdn.pixabay.com/photo/2016/04/01/10/11/avatar-1299805_1280.png",
+        id: idUser,
+      };
+      const req = {
+        idUser,
+      };
+
+      const res = mockResponse();
+      const next = jest.fn();
+
+      TattooArtistModel.findById = jest
+        .fn()
+        .mockResolvedValue(expectUserPorfile);
+
+      await tatooArtistPorfile(req, res, next);
+
+      expect(res.json).toHaveBeenCalledWith(expectUserPorfile);
+    });
+  });
+
+  describe("When it receives a function next and rejected error", () => {
+    test("Then it should called next function with the error object, error.message 'No encontrado' and error.code is 401", async () => {
+      const idUser = "61b1230c136733d8752847d8";
+      const req = {
+        idUser,
+      };
+
+      const error = new CodeError("No encontrado");
+      const res = mockResponse();
+      const next = jest.fn();
+
+      TattooArtistModel.findById = jest.fn().mockRejectedValue(null);
+
+      await tatooArtistPorfile(req, res, next);
 
       expect(next).toHaveBeenCalledWith(error);
       expect(next.mock.calls[0][0]).toHaveProperty("message", error.message);
